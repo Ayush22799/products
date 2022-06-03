@@ -5,17 +5,19 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
+
 @Service
-@Transactional
 public class ProductServiceImpl implements ProductService{
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	public void ProductRepository(ProductRepository productRepository) {
+		this.productRepository = productRepository;
+	}
 	@Override
 	public Product createProduct(Product product) {
 		return productRepository.save(product);
@@ -27,10 +29,12 @@ public class ProductServiceImpl implements ProductService{
 	 Optional<Product> productDb = this.productRepository.findById(product.getId());
 	 if(productDb.isPresent()) {
 		 Product productUpdate = productDb.get();
+		 System.out.println(productUpdate);
 		 productUpdate.setId(product.getId());
 		 productUpdate.setName(product.getName());
-		 productRepository.save(productUpdate);
-		 return productUpdate;
+		 productUpdate.setPrice(product.getPrice());
+		 Product productSaved = productRepository.save(productUpdate);
+		 return productSaved;
 	 }else {
 		 throw new ResourceNotFoundException("Record Not Found with id " + product.getId());
 	 }

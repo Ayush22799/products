@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -13,8 +14,10 @@ public class Product {
     @GeneratedValue
 	private long id;
     @Column(name = "name")
+    @NotNull
     private String name;
     @Column(name = "price")
+    @NotNull
     private double price;
 
 public long getId() {
@@ -35,4 +38,12 @@ public double getPrice() {
 public void setPrice(double price) {
 	this.price = price;
 }
+public Product(String name, double price){
+	this.name=name;
+	this.price=price;
+	}
+public Product(){
+	
+	}
+ 
 }
